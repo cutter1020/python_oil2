@@ -1,4 +1,4 @@
 Flask
-uvicorn
+gunicorn
 line-bot-sdk
 paho-mqtt
