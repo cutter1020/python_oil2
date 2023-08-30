@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-import paho.mqtt.client as mqtt
+from flask_mqtt import Mqtt
 import os
 from linebot.v3 import (
     WebhookHandler
@@ -24,11 +24,20 @@ app = Flask(__name__)
 configuration = Configuration(os.getenv("LINE_CHANNEL_TOKEN"))
 handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
+#mqtt
+app.config['MQTT_BROKER_URL'] = 'broker.emqx.io'
+app.config['MQTT_BROKER_PORT'] = 1883
+app.config['MQTT_USERNAME'] = ''  # Set this item when you need to verify username and password
+app.config['MQTT_PASSWORD'] = ''  # Set this item when you need to verify username and password
+app.config['MQTT_KEEPALIVE'] = 5  # Set KeepAlive time in seconds
+app.config['MQTT_TLS_ENABLED'] = False  # If your server supports TLS, set it True
+topic = '3ZeDnU$/'
+
+mqtt_client = Mqtt(app)
+
 @app.route("/testmqtt", methods=['GET'])
 def mqtt():
-    client = mqtt.Client()
-    client.connect('broker.emqx.io', 1883)
-    client.publish('3ZeDnU$/', "sstatus")
+    publish_result = mqtt_client.publish(topic, 'test')
     return "test mqtt"
 
 @app.route("/callback", methods=['POST'])
