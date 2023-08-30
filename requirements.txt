@@ -1,0 +1,4 @@
+Flask
+uvicorn
+line-bot-sdk
+paho-mqtt
