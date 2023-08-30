@@ -24,7 +24,7 @@ app = Flask(__name__)
 configuration = Configuration(os.getenv("LINE_CHANNEL_TOKEN"))
 handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
-@app.route("/testmqtt", method=['GET'])
+@app.route("/testmqtt", methods=['GET'])
 def mqtt():
     client = mqtt.Client()
     client.connect('broker.emqx.io', 1883)
